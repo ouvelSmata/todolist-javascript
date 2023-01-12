@@ -1,4 +1,8 @@
-const todolist: string[] = [];
+const todolist: string[] = [
+  "Belajar javascript dasar",
+  "Belajar javascript OOP",
+  "Belajar javascript DOM",
+];
 
 function clearTodolist() {
   const todoBody = document.getElementById("todoBody");
@@ -8,7 +12,12 @@ function clearTodolist() {
   }
 }
 
-function addTodolist(todo: string) {
+function removeTodolist(index: number): void {
+  todolist.splice(index, 1);
+  displayTodolist();
+}
+
+function addTodolist(index: number, todo: string) {
   const trTodo = document.createElement("tr");
 
   const tdButton = document.createElement("td");
@@ -17,6 +26,9 @@ function addTodolist(todo: string) {
   const button = document.createElement("input");
   button.type = "button";
   button.value = "Done";
+  button.onclick = (): void => {
+    removeTodolist(index);
+  };
   tdButton.appendChild(button);
 
   const tdTodo = document.createElement("td");
@@ -37,7 +49,7 @@ function displayTodolist() {
     const result = filter.value;
 
     if (todo.toLowerCase().includes(result)) {
-      addTodolist(todo);
+      addTodolist(i, todo);
     }
   }
 }
@@ -50,7 +62,6 @@ document.forms["todoForm"].onsubmit = (event: SubmitEvent): void => {
   todolist.push(input.value);
 
   document.forms["todoForm"].reset();
-  console.info(todolist);
 
   displayTodolist();
 };
